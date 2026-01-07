@@ -5,19 +5,21 @@ import 'package:bloc_management/Controllers/counter_event.dart';
 import 'package:bloc_management/Controllers/counter_state.dart';
 
 class KalBangunDatar extends StatelessWidget {
-  const KalBangunDatar({super.key});
+  KalBangunDatar({super.key});
+
+  final TextEditingController panjangController = TextEditingController();
+  final TextEditingController lebarController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Persegi Panjang")),
       body: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             const Text(
               "HITUNG PERSEGI PANJANG",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
 
             Row(
@@ -25,6 +27,7 @@ class KalBangunDatar extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: panjangController,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       context.read<CounterBloc>().add(
@@ -32,13 +35,14 @@ class KalBangunDatar extends StatelessWidget {
                       );
                     },
                     decoration: const InputDecoration(
-                      hintText: "Input Panjang",
+                      hintText: "Panjang",
                       border: OutlineInputBorder(),
                     ),
                   ),
                 ),
                 Expanded(
                   child: TextField(
+                    controller: lebarController,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       context.read<CounterBloc>().add(
@@ -46,7 +50,7 @@ class KalBangunDatar extends StatelessWidget {
                       );
                     },
                     decoration: const InputDecoration(
-                      hintText: "Input Lebar",
+                      hintText: "Lebar",
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -55,9 +59,9 @@ class KalBangunDatar extends StatelessWidget {
             ),
 
             Container(
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsets.all(12),
               child: Row(
-                spacing: 10,
+                spacing: 9,
                 children: [
                   Expanded(
                     child: ElevatedButton(
@@ -67,7 +71,6 @@ class KalBangunDatar extends StatelessWidget {
                       child: const Text("LUAS"),
                     ),
                   ),
-
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
@@ -76,30 +79,35 @@ class KalBangunDatar extends StatelessWidget {
                       child: const Text("KELILING"),
                     ),
                   ),
-
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.read<CounterBloc>().add(Reset());
-                      },
-                      child: const Text("RESET"),
-                    ),
-                  ),
                 ],
               ),
             ),
 
+            Spacer(),
+
             BlocBuilder<CounterBloc, CounterState>(
               builder: (context, state) {
-                return Column(
-                  children: [
-                    Text(
-                      "HASIL: ${state.hasil}",
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ],
+                return Text(
+                  "HASIL\n${state.hasil}",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 );
               },
+            ),
+            Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  panjangController.clear();
+                  lebarController.clear();
+                  context.read<CounterBloc>().add(Reset());
+                },
+                child: const Text("RESET"),
+              ),
             ),
           ],
         ),

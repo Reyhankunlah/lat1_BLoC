@@ -23,7 +23,8 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     });
 
     on<Reset>((event, emit) {
-      emit(CounterState(panjang: 0, lebar: 0, hasil: 0));
+      final nol = 0;
+      emit(CounterState(panjang: 0, lebar: 0, hasil: nol));
     });
   }
 }
